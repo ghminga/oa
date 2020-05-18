@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.web.workflow.mapper.SysPermissionCustomMapper" >
+   
+  <resultMap id="treeMenuResult" type="com.web.workflow.pojo.TreeMenu" >
+      <id column="id" property="id"/>
+      <result column="name" property="name"/>
+      <collection property="subMenu" select="getSubMenu" column="id">
+            <id column="id" property="id"/>
+		    <result column="name" property="name"/>
+		    <result column="type" property="type"/>
+		    <result column="url" property="url"/>
+		    <result column="percode" property="percode"/>
+		    <result column="parentid" property="parentid" />
+		    <result column="parentids" property="parentids" />
+		    <result column="sortstring" property="sortstring"  />
+		    <result column="available" property="available"  />
+      </collection>
+  </resultMap>
+  
+  <select id="getTreeMenu" resultMap="treeMenuResult">
+  	SELECT id,NAME FROM sys_permission WHERE parentid=1
+  </select>
+  <select id="getSubMenu" resultType="com.web.workflow.pojo.SysPermission" parameterType="int">
+  	SELECT * FROM sys_permission WHERE parentid=#{id}
+  </select>
+ 
+</mapper>
